@@ -10,7 +10,7 @@ export default function Search() {
     category: 'uncategorized',
   });
 
-  console.log(sidebarData);
+  // console.log(sidebarData);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
@@ -131,9 +131,9 @@ export default function Search() {
               id='category'
             >
               <option value='uncategorized'>Uncategorized</option>
-              <option value='reactjs'>React.js</option>
-              <option value='nextjs'>Next.js</option>
-              <option value='javascript'>JavaScript</option>
+              <option value='Social'>Social</option>
+              <option value='Love'>Love</option>
+              <option value='Sad'>Sad</option>
             </Select>
           </div>
           <Button type='submit' outline gradientDuoTone='purpleToPink'>
