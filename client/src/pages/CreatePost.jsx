@@ -99,6 +99,7 @@ export default function CreatePost() {
             <option value='Social'>Social</option>
             <option value='Love'>Love</option>
             <option value='Sad'>Sad</option>
+            <option value='Story'>Story</option>
           </Select>
         </div>
         <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
