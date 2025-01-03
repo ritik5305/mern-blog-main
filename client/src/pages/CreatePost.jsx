@@ -35,6 +35,17 @@ export default function CreatePost() {
           setImageUploadProgress(progress.toFixed(0));
         },
       });
+
+        // Update progress
+    let progress = 0;
+    const interval = setInterval(() => {
+      if (progress < 100) {
+        progress += 10;
+        setImageUploadProgress(progress.toFixed(0));
+      } else {
+        clearInterval(interval);
+      }
+    }, 100);
   
       // Correctly update formData by appending the image URL
       setFormData((prevData) => ({

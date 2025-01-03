@@ -19,9 +19,7 @@ export default function Home() {
       <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto ">
         <h1 className="text-3xl font-bold lg:text-6xl">Welcome to Kalpna</h1>
         <p className="text-gray-500 text-xs sm:text-sm">
-          Shayari ki ek nayi duniya, jaha har alfaaz ek jazbat hai aur har
-          kavita ek dastaan. Apne vichaaron ko apne shabdon mein dhaliye aur
-          duniya ke dil tak pahunchaaiye..
+        शायरी की एक नई दुनिया, जहां हर अल्फाज़ एक जज़्बात है और हर कविता एक दास्तान। अपने विचारों को अपने शब्दों में ढालिए और दुनिया के दिल तक पहुँचाइए।
         </p>
         <Link
           to="/search"
@@ -36,7 +34,7 @@ export default function Home() {
 
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 py-7">
         {posts && posts.length > 0 && (
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6"> 
             <h2 className="text-2xl font-semibold text-center">Recent Posts</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.map((post) => (
@@ -48,7 +46,7 @@ export default function Home() {
 
             <Link
               to={"/search"}
-              className="text-lg text-teal-500 hover:underline text-center"
+              className="text-lg text-teal-500 hover:underline text-center" 
             >
               View all posts
             </Link>
