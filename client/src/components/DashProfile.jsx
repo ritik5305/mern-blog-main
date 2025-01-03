@@ -1,13 +1,6 @@
 import { Alert, Button, Modal,  TextInput } from 'flowbite-react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
-import { app } from '../firebase';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import {
@@ -50,38 +43,53 @@ export default function DashProfile() {
   }, [imageFile]);
 
   const uploadImage = async () => {
+    if (!imageFile) return;
+  
     setImageFileUploading(true);
     setImageFileUploadError(null);
-    const storage = getStorage(app);
-    const fileName = new Date().getTime() + imageFile.name;
-    const storageRef = ref(storage, fileName);
-    const uploadTask = uploadBytesResumable(storageRef, imageFile);
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  
+    const formData = new FormData();
+    formData.append('file', imageFile);
+    formData.append('upload_preset', 'kalpna2'); 
+    formData.append('cloud_name', 'dvh3ig0yj'); 
+  
+    try {
+      const response = await fetch(
+        'https://api.cloudinary.com/v1_1/dvh3ig0yj/image/upload', 
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+  
+      if (!response.ok) throw new Error('Failed to upload');
+      const data = await response.json();
 
+      // Update progress
+    let progress = 0;
+    const interval = setInterval(() => {
+      if (progress < 100) {
+        progress += 10;
         setImageFileUploadProgress(progress.toFixed(0));
-      },
-      (error) => {
-        setImageFileUploadError(
-          'Could not upload image (File must be less than 2MB)'
-        );
-        setImageFileUploadProgress(null);
-        setImageFile(null);
-        setImageFileUrl(null);
-        setImageFileUploading(false);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImageFileUrl(downloadURL);
-          setFormData({ ...formData, profilePicture: downloadURL });
-          setImageFileUploading(false);
-        });
+      } else {
+        clearInterval(interval);
       }
-    );
+    }, 100);
+  
+      if (data.secure_url) {
+        setImageFileUrl(data.secure_url); 
+        setFormData({ ...formData, profilePicture: data.secure_url });
+      } else {
+        throw new Error('Image upload failed');
+      }
+    } catch (error) {
+      setImageFileUploadError('Failed to upload image to Cloudinary');
+    } finally {
+      setImageFileUploading(false);
+      setImageFileUploadProgress(null);
+    }
   };
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
